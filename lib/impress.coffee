@@ -45,7 +45,15 @@ module.exports = Impress =
 
   preview: ->
     editor = atom.workspace.getActiveTextEditor()
-    currentFilePath = editor.getPath()
+    if editor?
+      currentFilePath = editor.getPath()
+    else
+      paneItem = atom.workspace.getActivePaneItem()
+      if paneItem?.getPath?
+        # e.g. ImageEditor
+        currentFilePath = paneItem.getPath()
+    return unless currentFilePath?
+
     for projPath in atom.project.getPaths()
       if currentFilePath.startsWith projPath
         indexPath = path.join projPath, 'index.html'
