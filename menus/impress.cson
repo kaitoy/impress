@@ -1,0 +1,30 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+# 'context-menu':
+#   'atom-text-editor': [
+#     {
+#       'label': 'Toggle impress'
+#       'command': 'impress:toggle'
+#     }
+#   ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'impress'
+      'submenu': [
+        {
+          'label': 'New Presentation'
+          'command': 'impress:new-presentation'
+        },
+        {
+          'label': 'Toggle Step List View'
+          'command': 'impress:toggle-step-list-view'
+        },
+        {
+          'label': 'Preview'
+          'command': 'impress:preview'
+        }
+      ]
+    ]
+  }
+]

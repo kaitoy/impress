@@ -1,0 +1,20 @@
+{
+  "name": "impress",
+  "main": "./lib/impress",
+  "version": "0.0.0",
+  "description": "Create presentations using impress.js.",
+  "keywords": [
+    "impress",
+    "presentation"
+  ],
+  "repository": "https://github.com/kaitoy/impress",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "fs-plus": "^2.0.0",
+    "atom-space-pen-views": "^2.0.0",
+    "cheerio": "^0.19.0"
+  }
+}
