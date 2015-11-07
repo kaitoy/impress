@@ -1,4 +1,5 @@
 {$, ScrollView} = require 'atom-space-pen-views'
+util = require './util'
 
 module.exports =
 class StepListView extends ScrollView
@@ -27,11 +28,11 @@ class StepListView extends ScrollView
       @show()
 
   show: ->
-    editor = atom.workspace.getActiveTextEditor()
-    return if editor.getGrammar().name isnt 'HTML'
+    indexHtmlPath = util.findIndexHtmlPath()
+    return unless indexHtmlPath?
 
     @panel.show()
-    @iframe = $('<iframe src="' + editor.getPath() + '"></iframe>')
+    @iframe = $('<iframe src="' + indexHtmlPath + '"></iframe>')
     @stepList.append(@iframe)
 
   hide: ->

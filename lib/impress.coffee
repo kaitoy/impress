@@ -1,7 +1,7 @@
 {CompositeDisposable} = require 'atom'
 path = require 'path'
 os = require 'os'
-fs = require 'fs-plus'
+util = require './util'
 NewPresentationGeneratorView = require './new-presentation-generator-view'
 StepListView = require './step-list-view'
 remote = require 'remote'
@@ -44,32 +44,18 @@ module.exports = Impress =
     @stepListView.toggle()
 
   preview: ->
-    editor = atom.workspace.getActiveTextEditor()
-    if editor?
-      currentFilePath = editor.getPath()
-    else
-      paneItem = atom.workspace.getActivePaneItem()
-      if paneItem?.getPath?
-        # e.g. ImageEditor
-        currentFilePath = paneItem.getPath()
-    return unless currentFilePath?
-
-    for projPath in atom.project.getPaths()
-      if currentFilePath.startsWith projPath
-        indexPath = path.join projPath, 'index.html'
-        continue unless fs.existsSync indexPath
-
-        @previewWindow = new BrowserWindow
-          width: 800,
-          height: 600,
-          resizable: true,
-          center: true,
-          show: false
-        @previewWindow.on 'closed', =>
-          @previewWindow.destroy()
-          @previewWindow = null
-        @previewWindow.setMenuBarVisibility false
-        @previewWindow.openDevTools()
-        @previewWindow.loadUrl indexPath
-        @previewWindow.show()
-        break
+    indexHtmlPath = util.findIndexHtmlPath()
+    return unless indexHtmlPath?
+    @previewWindow = new BrowserWindow
+      width: 800,
+      height: 600,
+      resizable: true,
+      center: true,
+      show: false
+    @previewWindow.on 'closed', =>
+      @previewWindow.destroy()
+      @previewWindow = null
+    @previewWindow.setMenuBarVisibility false
+    @previewWindow.openDevTools()
+    @previewWindow.loadUrl indexHtmlPath
+    @previewWindow.show()
