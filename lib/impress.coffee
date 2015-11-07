@@ -56,6 +56,5 @@ module.exports = Impress =
       @previewWindow.destroy()
       @previewWindow = null
     @previewWindow.setMenuBarVisibility false
-    @previewWindow.openDevTools()
     @previewWindow.loadUrl indexHtmlPath
     @previewWindow.show()
