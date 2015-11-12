@@ -1,10 +1,11 @@
 path = require 'path'
 fs = require 'fs-plus'
-{$, TextEditorView, View} = require 'atom-space-pen-views'
+$ = require 'jquery'
+{TextEditorView, View} = require 'atom-space-pen-views'
 
 module.exports =
 class NewPresentationGeneratorView extends View
-  panel = null
+  panel: null
   defaultPresentationName: 'new-presentation'
   previouslyFocusedElement: null
 
