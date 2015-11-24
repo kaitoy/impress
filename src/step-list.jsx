@@ -57,6 +57,7 @@ module.exports = StepList = React.createClass({
               title={step.title}
               style={{boxSizing: 'border-box', border: 'solid 1px'}}
               onClick={handleOnClickTile}
+              key={step.index}
               actionIcon={
                 <IconButton
                   tooltip='Delete'
