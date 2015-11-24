@@ -1,10 +1,8 @@
 {CompositeDisposable} = require 'atom'
-path = require 'path'
-os = require 'os'
 util = require './util'
 NewPresentationGeneratorView = require './new-presentation-generator-view'
 StepListViewManager = require './step-list-view-manager'
-StepListView = require './step-list-view'
+config = require './config'
 remote = require 'remote'
 BrowserWindow = remote.require 'browser-window'
 
@@ -14,16 +12,7 @@ module.exports = Impress =
   stepListViewManager: null
   previewWindow: null
 
-  config:
-    presentationHome:
-      default: path.join os.homedir(), 'impress'
-      type: 'string'
-      description: 'Presentation home.'
-    stepListViewHeight:
-      default: 120
-      type: 'integer'
-      minimum: StepListView.minHeight
-      description: 'Height of Step List View.'
+  config: config
 
   activate: ->
     @subscriptions = new CompositeDisposable
