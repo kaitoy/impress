@@ -3,6 +3,7 @@ path = require 'path'
 os = require 'os'
 util = require './util'
 NewPresentationGeneratorView = require './new-presentation-generator-view'
+StepListViewManager = require './step-list-view-manager'
 StepListView = require './step-list-view'
 remote = require 'remote'
 BrowserWindow = remote.require 'browser-window'
@@ -10,7 +11,7 @@ BrowserWindow = remote.require 'browser-window'
 module.exports = Impress =
   subscriptions: null
   newPresentationGeneratorView: null
-  stepListView: null
+  stepListViewManager: null
   previewWindow: null
 
   config:
@@ -18,6 +19,11 @@ module.exports = Impress =
       default: path.join os.homedir(), 'impress'
       type: 'string'
       description: 'Presentation home.'
+    stepListViewHeight:
+      default: 120
+      type: 'integer'
+      minimum: StepListView.minHeight
+      description: 'Height of Step List View.'
 
   activate: ->
     @subscriptions = new CompositeDisposable
@@ -26,13 +32,13 @@ module.exports = Impress =
       'impress:toggle-step-list-view': => @toggleStepListView()
       'impress:preview': => @preview()
     @newPresentationGeneratorView = new NewPresentationGeneratorView
-    @stepListView = new StepListView
+    @stepListViewManager = new StepListViewManager
 
   deactivate: ->
     @newPresentationGeneratorView?.destroy()
     @newPresentationGeneratorView = null
-    @stepListView?.destroy()
-    @stepListView = null
+    @stepListViewManager?.destroy()
+    @stepListViewManager = null
     @previewWindow?.destroy()
     @previewWindow = null
     @subscriptions.dispose()
@@ -41,7 +47,7 @@ module.exports = Impress =
     @newPresentationGeneratorView.show()
 
   toggleStepListView: ->
-    @stepListView.toggle()
+    @stepListViewManager.toggleStepListView()
 
   preview: ->
     indexHtmlPath = util.findIndexHtmlPath()
