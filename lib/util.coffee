@@ -93,17 +93,11 @@ exports.getStepRange = (
         range.end = new Point newRow + 1, 0
   return range
 
-exports.observeFileChange = (targets, opts, callback) ->
+exports.observeFileChange = (targets, callback) ->
   watcher = chokidar.watch targets,
     persistent: true
     ignoreInitial: true
     awaitWriteFinish: true
-    ignored: opts?.ignored
-  watcher
-    .on 'add', callback
-    .on 'addDir', callback
-    .on 'change', callback
-    .on 'unlink', callback
-    .on 'unlinkDir', callback
-    return new Disposable ->
-      watcher.close()
+  watcher.on 'all', callback
+  return new Disposable ->
+    watcher.close()

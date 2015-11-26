@@ -34,7 +34,7 @@ class StepListView extends View
         @panel.show()
       else
         @panel.hide()
-    @subscriptions.add util.observeFileChange @indexHtmlPath, null, =>
+    @subscriptions.add util.observeFileChange @indexHtmlPath, =>
       @iframe.get(0).contentWindow.location.reload();
     @iframe.attr
       'impress-no-init': 'impress-no-init'
