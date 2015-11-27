@@ -122,7 +122,9 @@ class StepListView extends View
           )
           return if answer isnt 0
         range = util.getStepRange(editor, action.step, true, true)
-        editor.setTextInBufferRange range, "\n"
+        newRange = editor.setTextInBufferRange range, "\n"
+        editor.scrollToScreenPosition newRange.start, center: true
+        editor.setSelectedBufferRange newRange
         editor.save()
       when 'focus'
         editor = atom.workspace.getActiveTextEditor()
