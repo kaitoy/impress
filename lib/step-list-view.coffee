@@ -27,6 +27,7 @@ class StepListView extends View
     @viewHeight = configResolver.stepListViewHeight(projPath)
     if @viewHeight < StepListView.minHeight
       @viewHeight = StepListView.minHeight
+
     @panel = atom.workspace.addBottomPanel
       item: @element
       priority: -5
@@ -37,6 +38,7 @@ class StepListView extends View
         @panel.show()
       else
         @panel.hide()
+
     resources = configResolver.resources(projPath)
     if Array.isArray resources
       resources = resources.map (elem) ->
@@ -44,6 +46,7 @@ class StepListView extends View
     resources.push @indexHtmlPath
     @subscriptions.add util.observeFileChange resources, =>
       @iframe.get(0).contentWindow.location.reload();
+
     @iframe.attr
       'impress-no-init': 'impress-no-init'
       'src': @indexHtmlPath
