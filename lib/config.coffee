@@ -7,6 +7,11 @@ module.exports =
     default: path.join os.homedir(), 'impress'
     type: 'string'
     description: 'Presentation home.'
+  mainHtmlPath:
+    default: 'index.html'
+    type: 'string'
+    description: 'Path to the main HTML file.
+                  (Relative path from the project root.)'
   stepListViewHeight:
     default: 120
     type: 'integer'

@@ -23,7 +23,7 @@ class StepListView extends View
       @iframe outlet: 'iframe'
 
   initialize: (projPath) ->
-    @indexHtmlPath = path.join projPath, 'index.html'
+    @indexHtmlPath = path.join projPath, configResolver.mainHtmlPath(projPath)
     @viewHeight = configResolver.stepListViewHeight(projPath)
     @panel = atom.workspace.addBottomPanel
       item: @element
