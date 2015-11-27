@@ -65,4 +65,7 @@ class ConfigResolver
       console.error "Parsing error (at #{e.line}:#{e.column}): #{e.message}"
       return null
 
+  presentationHome: ->
+    return @globalConfig.presentationHome
+
 module.exports = new ConfigResolver

@@ -33,7 +33,7 @@ class NewPresentationGeneratorView extends View
     @panel.show()
     @message.text 'Enter path to new presentation'
 
-    presentationHome = configResolver.globalConfig.presentationHome
+    presentationHome = configResolver.presentationHome()
     editor = @miniEditor.getModel()
     presentationPath = path.join presentationHome, @defaultPresentationName
     editor.setText presentationPath
