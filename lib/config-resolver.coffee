@@ -28,7 +28,8 @@ class ConfigResolver
       stepListView:
         stepListViewHeight: atom.config.get 'impress.stepListViewHeight'
     for projPath of @resolvedConfigs
-      @resolvedConfigs[projPath] = $.extend true, {}, @globalConfig, localConf
+      @resolvedConfigs[projPath] =
+        $.extend true, {}, @globalConfig, @localConfigs[projPath]
 
   _deleteUnneededConfigs: (currentProjPaths) ->
     removedProjPaths = []
