@@ -46,7 +46,7 @@ class ConfigResolver
   _resolveNewProjectConfigs: (currentProjPaths) ->
     for projPath in currentProjPaths
       continue if @resolvedConfigs[projPath] # not new project
-      confFilePath = path.join projPath, @configFileName
+      confFilePath = @getConfigFilePath projPath
       continue unless fs.existsSync confFilePath # conf file not exist
       localConf = @_readLocalConfig confFilePath
       continue unless localConf # invalid conf file
@@ -65,7 +65,13 @@ class ConfigResolver
       console.error "Parsing error (at #{e.line}:#{e.column}): #{e.message}"
       return null
 
+  getConfigFilePath: (projPath) ->
+    return path.join projPath, @configFileName
+
   presentationHome: ->
     return @globalConfig.presentationHome
+
+  stepListViewHeight: (projPath) ->
+    return @resolvedConfigs[projPath].stepListView.stepListViewHeight
 
 module.exports = new ConfigResolver

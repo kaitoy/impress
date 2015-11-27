@@ -6,6 +6,7 @@ ReactDOM = require 'react-dom'
 path = require 'path'
 util = require './util'
 StepList = require './step-list'
+configResolver = require './config-resolver'
 remote = require 'remote'
 dialog = remote.require 'dialog'
 
@@ -23,7 +24,7 @@ class StepListView extends View
 
   initialize: (projPath) ->
     @indexHtmlPath = path.join projPath, 'index.html'
-    @viewHeight = atom.config.get 'impress.stepListViewHeight'
+    @viewHeight = configResolver.stepListViewHeight(projPath)
     @panel = atom.workspace.addBottomPanel
       item: @element
       priority: -5
