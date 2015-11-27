@@ -57,10 +57,13 @@ class NewPresentationGeneratorView extends View
     packagePath = atom.packages.resolvePackagePath 'impress'
     presentationTemplatePath = path.join packagePath, 'impress.js'
     if @isValidPath newPresentationPath
-      # TODO error handling, ignore .git file
-      fs.copySync presentationTemplatePath, newPresentationPath
-      atom.open(pathsToOpen: newPresentationPath)
-      @close()
+      try
+        fs.copySync presentationTemplatePath, newPresentationPath
+        atom.open(pathsToOpen: newPresentationPath)
+        @close()
+      catch e
+        @error.text "An unexpected error occurred: #{e}"
+        @error.show()
 
   isValidPath: (path) ->
     if fs.existsSync path
