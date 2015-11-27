@@ -16,4 +16,5 @@ module.exports =
     default: 120
     type: 'integer'
     minimum: StepListView.minHeight
-    description: 'Height of Step List View.'
+    description: "Height of Step List View.
+                  (#{StepListView.minHeight} at minimum.)"
