@@ -25,6 +25,8 @@ class StepListView extends View
   initialize: (projPath) ->
     @indexHtmlPath = path.join projPath, configResolver.mainHtmlPath(projPath)
     @viewHeight = configResolver.stepListViewHeight(projPath)
+    if @viewHeight < StepListView.minHeight
+      @viewHeight = StepListView.minHeight
     @panel = atom.workspace.addBottomPanel
       item: @element
       priority: -5
