@@ -12,6 +12,16 @@ module.exports =
     type: 'string'
     description: 'Path to the main HTML file.
                   (Relative path from the project root.)'
+  resources:
+    default: ['css', 'fonts', 'js']
+    type: ['string', 'array']
+    description: 'Resource files the main HTML file referes to
+                  and/or directories containing those.
+                  (Relative path from the project root.)
+                  Changes in the files/directories are monitored
+                  and reflected to the step list view.'
+    items:
+      type: 'string'
   stepListViewHeight:
     default: 120
     type: 'integer'

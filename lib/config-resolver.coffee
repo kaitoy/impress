@@ -26,6 +26,7 @@ class ConfigResolver
     @globalConfig =
       presentationHome: atom.config.get 'impress.presentationHome'
       mainHtmlPath: atom.config.get 'impress.mainHtmlPath'
+      resources: atom.config.get 'impress.resources'
       stepListView:
         stepListViewHeight: atom.config.get 'impress.stepListViewHeight'
     for projPath of @resolvedConfigs
@@ -74,6 +75,9 @@ class ConfigResolver
 
   mainHtmlPath: (projPath) ->
     return @resolvedConfigs[projPath].mainHtmlPath
+
+  resources: (projPath) ->
+    return @resolvedConfigs[projPath].resources
 
   stepListViewHeight: (projPath) ->
     return @resolvedConfigs[projPath].stepListView.stepListViewHeight
