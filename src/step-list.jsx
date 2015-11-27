@@ -75,7 +75,11 @@ module.exports = StepList = React.createClass({
                   if (this.getAttribute('step')) {
                     return true;
                   }
-                  $(this).css('height', '30px'); // title label
+                  // title label
+                  $(this).css({
+                    height: '30px',
+                    lineHeight: '20px'
+                  });
                 });
               }}
             >
