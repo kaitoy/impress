@@ -26,9 +26,12 @@ class StepListViewManager
     currentProjectPath = util.getCurrentProjectPath()
     return if currentProjectPath is null
     if not configResolver.resolvedConfigs[currentProjectPath]?
-      atom.notifications.addWarning 'Failed to read the configration file.',
-        detail: "#{configResolver.getConfigFilePath currentProjectPath}
-                 doesn't exist or is invalid."
+      atom.notifications.addWarning(
+        'Failed to find the configration of this project.',
+          detail: "#{configResolver.getConfigFilePath currentProjectPath}
+                   didn't exist or was invalid when this project was added."
+          dismissable: true
+      )
       return
 
     if @views[currentProjectPath]?

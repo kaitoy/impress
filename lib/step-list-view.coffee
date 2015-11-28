@@ -118,10 +118,13 @@ class StepListView extends View
           answer = dialog.showMessageBox(
             remote.getCurrentWindow(),
               type: 'question'
-              buttons: ['OK', 'Cansel to delete']
+              buttons: ['OK', 'Cansel Deletion']
               title: 'Confirm'
               cancelId: 1
-              message: 'OK to save after deleting the step.'
+              message: """
+                       '#{editor.getTitle()}' is modified.
+                       Press 'OK' to save after deleting the step '#{step.title}'.
+                       """
           )
           if answer isnt 0
             delete step.deleting
