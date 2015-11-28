@@ -34,10 +34,11 @@ class StepListView extends View
       visible: false
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.workspace.observeActivePaneItem (item) =>
-      if item instanceof TextEditor and item.getPath() is @indexHtmlPath
-        @panel.show()
+      currentFilePath = util.getCurrentFilePath()
+      if currentFilePath? and currentFilePath.startsWith projPath
+        @show()
       else
-        @panel.hide()
+        @hide()
 
     resources = configResolver.resources(projPath)
     if Array.isArray resources
@@ -76,7 +77,7 @@ class StepListView extends View
           StepList,
             steps: steps
             height: @viewHeight
-            actionHandler: @_actionHandler
+            actionHandler: $.proxy @_actionHandler, @
         ),
         @iframe.contents().find('#impress').get(0),
         => @_adjustSize()
@@ -93,9 +94,7 @@ class StepListView extends View
       @show()
 
   show: ->
-    atom.workspace.open @indexHtmlPath
-      .then () => @panel.show()
-      .catch (error) -> console.error error
+    @panel.show()
 
   hide: ->
     @panel.hide()
@@ -107,11 +106,15 @@ class StepListView extends View
       @iframe.css height: @iframe.height() + scrollbarHeight
 
   _actionHandler: (action) ->
+    atom.workspace.open @indexHtmlPath
+      .then (editor) => @_doAction editor, action
+      .catch (error) -> console.error error
+
+  _doAction: (editor, action) ->
+    step = action.step
     switch action.name
       when 'delete'
-        editor = atom.workspace.getActiveTextEditor()
         if editor.isModified()
-          atom.notifications.addWarning
           answer = dialog.showMessageBox(
             remote.getCurrentWindow(),
               type: 'question'
@@ -120,16 +123,17 @@ class StepListView extends View
               cancelId: 1
               message: 'OK to save after deleting the step.'
           )
-          return if answer isnt 0
-        range = util.getStepRange(editor, action.step, true, true)
+          if answer isnt 0
+            delete step.deleting
+            return
+        range = util.getStepRange editor, step.index, true, true
         newRange = editor.setTextInBufferRange range, "\n"
         editor.scrollToScreenPosition newRange.start, center: true
         editor.setSelectedBufferRange newRange
         editor.save()
       when 'focus'
-        editor = atom.workspace.getActiveTextEditor()
-        range = util.getStepRange(editor, action.step, false, false)
+        range = util.getStepRange editor, step.index, false, false
         editor.setSelectedBufferRange range, {reversed: true}
         editor.scrollToCursorPosition()
       else
-        console.warn("Unknown action:", action)
+        console.warn 'Unknown action:', action

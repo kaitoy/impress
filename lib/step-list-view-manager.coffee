@@ -16,8 +16,7 @@ class StepListViewManager
         if projPaths.indexOf(projPath) is -1
           removedProjPaths.push projPath
       for projPath in removedProjPaths
-        @views[projPath].destroy()
-        delete @views[projPath]
+        @_deleteView projPath
 
   destroy: ->
     view.destroy() for view of @views
@@ -33,8 +32,12 @@ class StepListViewManager
       return
 
     if @views[currentProjectPath]?
-      @views[currentProjectPath].toggle()
+      @_deleteView currentProjectPath
     else
       view = new StepListView currentProjectPath
       @views[currentProjectPath] = view
       view.show()
+
+  _deleteView: (projPath) ->
+    @views[projPath].destroy()
+    delete @views[projPath]
