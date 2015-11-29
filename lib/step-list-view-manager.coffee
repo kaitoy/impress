@@ -6,10 +6,11 @@ configResolver = require './config-resolver'
 module.exports =
 class StepListViewManager
   subscriptions: null
-  views: {}
+  views: null
 
   constructor: ->
     @subscriptions = new CompositeDisposable
+    @views = {}
     @subscriptions.add atom.project.onDidChangePaths (projPaths) =>
       removedProjPaths = []
       for projPath, view of @views
@@ -19,7 +20,7 @@ class StepListViewManager
         @_deleteView projPath
 
   destroy: ->
-    view.destroy() for view of @views
+    view.destroy() for projPath, view of @views
     @subscriptions.dispose()
 
   toggleStepListView: ->
