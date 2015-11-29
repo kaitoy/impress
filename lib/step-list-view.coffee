@@ -7,8 +7,6 @@ path = require 'path'
 util = require './util'
 StepList = require './step-list'
 configResolver = require './config-resolver'
-remote = require 'remote'
-dialog = remote.require 'dialog'
 
 module.exports =
 class StepListView extends View
@@ -115,17 +113,14 @@ class StepListView extends View
     switch action.name
       when 'delete'
         if editor.isModified()
-          answer = dialog.showMessageBox(
-            remote.getCurrentWindow(),
-              type: 'question'
-              buttons: ['OK', 'Cansel Deletion']
-              title: 'Confirm'
-              cancelId: 1
-              message: """
-                       '#{editor.getTitle()}' is modified.
-                       Press 'OK' to save after deleting the step '#{step.title}'.
-                       """
-          )
+          answer = atom.confirm
+            message: 'Confirm'
+            buttons: ['OK', 'Cansel Deletion']
+            detailedMessage:
+              """
+              '#{editor.getTitle()}' is modified.
+              Press 'OK' to save after deleting the step '#{step.title}'.
+              """
           if answer isnt 0
             delete step.deleting
             return
