@@ -11,7 +11,7 @@ configResolver = require './config-resolver'
 module.exports =
 class StepListView extends View
   @minHeight: 50
-  indexHtmlPath: undefined
+  mainHtmlPath: undefined
   viewHeight: undefined
   panel: null
   subscriptions: null
@@ -21,7 +21,7 @@ class StepListView extends View
       @iframe outlet: 'iframe'
 
   initialize: (projPath) ->
-    @indexHtmlPath = path.join projPath, configResolver.mainHtmlPath(projPath)
+    @mainHtmlPath = path.join projPath, configResolver.mainHtmlPath(projPath)
     @viewHeight = configResolver.stepListViewHeight(projPath)
     if @viewHeight < StepListView.minHeight
       @viewHeight = StepListView.minHeight
@@ -42,13 +42,13 @@ class StepListView extends View
     if Array.isArray resources
       resources = resources.map (elem) ->
         return path.join projPath, elem
-    resources.push @indexHtmlPath
+    resources.push @mainHtmlPath
     @subscriptions.add util.observeFileChange resources, =>
       @iframe.get(0).contentWindow.location.reload();
 
     @iframe.attr
       'impress-no-init': 'impress-no-init'
-      'src': @indexHtmlPath
+      'src': @mainHtmlPath
     @iframe.css
       width: '100%'
       height: @viewHeight
@@ -104,7 +104,7 @@ class StepListView extends View
       @iframe.css height: @iframe.height() + scrollbarHeight
 
   _actionHandler: (action) ->
-    atom.workspace.open @indexHtmlPath
+    atom.workspace.open @mainHtmlPath
       .then (editor) => @_doAction editor, action
       .catch (error) -> console.error error
 
