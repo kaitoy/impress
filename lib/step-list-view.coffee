@@ -130,6 +130,7 @@ class StepListView extends View
             delete step.deleting
             return
         range = util.getStepRange editor, step.index, true, true
+        editor.setSelectedBufferRange range
         newRange = editor.setTextInBufferRange range, "\n"
         editor.scrollToScreenPosition newRange.start, center: true
         editor.setSelectedBufferRange newRange
