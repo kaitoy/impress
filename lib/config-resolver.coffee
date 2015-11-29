@@ -13,6 +13,7 @@ class ConfigResolver
 
   constructor: ->
     @_loadGlobalConfig()
+    @_resolveNewProjectConfigs atom.project.getPaths()
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.project.onDidChangePaths (projPaths) =>
       @_deleteUnneededConfigs projPaths
