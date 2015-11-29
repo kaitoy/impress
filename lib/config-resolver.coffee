@@ -4,14 +4,17 @@ path = require 'path'
 fs = require 'fs-plus'
 $ = require 'jquery'
 
-class ConfigResolver
+module.exports = class ConfigResolver
   subscriptions: null
   configFileName: '.impress.toml'
-  resolvedConfigs: {}
+  resolvedConfigs: null
   globalConfig: null
-  localConfigs: {}
+  localConfigs: null
+  @instance: null
 
   constructor: ->
+    @resolvedConfigs = {}
+    @localConfigs = {}
     @_loadGlobalConfig()
     @_resolveNewProjectConfigs atom.project.getPaths()
     @subscriptions = new CompositeDisposable
@@ -22,6 +25,13 @@ class ConfigResolver
 
   destroy: ->
     @subscriptions.dispose()
+
+  @init: ->
+    @instance = new ConfigResolver
+
+  @deinit: ->
+    @instance?.destroy()
+    @instance = null
 
   _loadGlobalConfig: ->
     @globalConfig =
@@ -82,5 +92,3 @@ class ConfigResolver
 
   stepListViewHeight: (projPath) ->
     return @resolvedConfigs[projPath].stepListView.stepListViewHeight
-
-module.exports = new ConfigResolver

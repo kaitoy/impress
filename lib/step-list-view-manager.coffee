@@ -1,7 +1,7 @@
 {CompositeDisposable} = require 'atom'
 util = require './util'
 StepListView = require './step-list-view'
-configResolver = require './config-resolver'
+ConfigResolver = require './config-resolver'
 
 module.exports =
 class StepListViewManager
@@ -26,10 +26,10 @@ class StepListViewManager
   toggleStepListView: ->
     currentProjectPath = util.getCurrentProjectPath()
     return if currentProjectPath is null
-    if not configResolver.resolvedConfigs[currentProjectPath]?
+    if not ConfigResolver.instance.resolvedConfigs[currentProjectPath]?
       atom.notifications.addWarning(
         'Failed to find the configration of this project.',
-          detail: "#{configResolver.getConfigFilePath currentProjectPath}
+          detail: "#{ConfigResolver.instance.getConfigFilePath currentProjectPath}
                    didn't exist or was invalid when this project was added."
           dismissable: true
       )

@@ -2,7 +2,7 @@ path = require 'path'
 fs = require 'fs-plus'
 $ = require 'jquery'
 {TextEditorView, View} = require 'atom-space-pen-views'
-configResolver = require './config-resolver'
+ConfigResolver = require './config-resolver'
 
 module.exports =
 class NewPresentationGeneratorView extends View
@@ -33,7 +33,7 @@ class NewPresentationGeneratorView extends View
     @panel.show()
     @message.text 'Enter path to new presentation'
 
-    presentationHome = configResolver.presentationHome()
+    presentationHome = ConfigResolver.instance.presentationHome()
     editor = @miniEditor.getModel()
     presentationPath = path.join presentationHome, @defaultPresentationName
     editor.setText presentationPath

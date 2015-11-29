@@ -2,6 +2,7 @@
 util = require './util'
 NewPresentationGeneratorView = require './new-presentation-generator-view'
 StepListViewManager = require './step-list-view-manager'
+ConfigResolver = require './config-resolver'
 config = require './config'
 remote = require 'remote'
 BrowserWindow = remote.require 'browser-window'
@@ -15,6 +16,7 @@ module.exports = Impress =
   config: config
 
   activate: ->
+    ConfigResolver.init()
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace',
       'impress:new-presentation': => @newPresentation()
@@ -24,6 +26,7 @@ module.exports = Impress =
     @stepListViewManager = new StepListViewManager
 
   deactivate: ->
+    ConfigResolver.deinit()
     @newPresentationGeneratorView?.destroy()
     @newPresentationGeneratorView = null
     @stepListViewManager?.destroy()

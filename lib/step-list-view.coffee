@@ -6,7 +6,7 @@ ReactDOM = require 'react-dom'
 path = require 'path'
 util = require './util'
 StepList = require './step-list'
-configResolver = require './config-resolver'
+ConfigResolver = require './config-resolver'
 
 module.exports =
 class StepListView extends View
@@ -21,8 +21,8 @@ class StepListView extends View
       @iframe outlet: 'iframe'
 
   initialize: (projPath) ->
-    @mainHtmlPath = path.join projPath, configResolver.mainHtmlPath(projPath)
-    @viewHeight = configResolver.stepListViewHeight(projPath)
+    @mainHtmlPath = path.join projPath, ConfigResolver.instance.mainHtmlPath(projPath)
+    @viewHeight = ConfigResolver.instance.stepListViewHeight(projPath)
     if @viewHeight < StepListView.minHeight
       @viewHeight = StepListView.minHeight
 
@@ -38,7 +38,7 @@ class StepListView extends View
       else
         @hide()
 
-    resources = configResolver.resources(projPath)
+    resources = ConfigResolver.instance.resources projPath
     if Array.isArray resources
       resources = resources.map (elem) ->
         return path.join projPath, elem
