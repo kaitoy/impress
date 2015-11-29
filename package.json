@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "Create presentations using impress.js.",
   "keywords": [
-    "impress",
+    "impress.js",
     "presentation"
   ],
   "repository": "https://github.com/kaitoy/impress",
