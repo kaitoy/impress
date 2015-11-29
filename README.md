@@ -18,3 +18,7 @@ In a presentation project, `Ctrl+Alt+i Ctrl+Alt+s` to toggle the Step List View.
 In a presentation project, `Ctrl+Alt+i Ctrl+Alt+p` to open the Preview window. (Keep pressing `Ctrl+Alt` and press `i` and then `p` quickly.)
 
 ![preview](https://github.com/kaitoy/impress/raw/master/www/preview.gif)
+
+Configuration
+-------------
+Package settings and `<presentation project root>/.impress.toml`.
