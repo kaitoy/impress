@@ -4,6 +4,7 @@ fs = require 'fs-plus'
 sax = require "sax"
 $ = require 'jquery'
 chokidar = require 'chokidar'
+ConfigResolver = require './config-resolver'
 
 exports.getCurrentFilePath = getCurrentFilePath = ->
   currentFilePath = null
@@ -26,11 +27,21 @@ exports.getCurrentProjectPath = getCurrentProjectPath = ->
       return projPath
   return null
 
-exports.findIndexHtmlPath = ->
+exports.findMainHtmlPath = (opts = {}) ->
   currentProjectPath = getCurrentProjectPath()
   return null if currentProjectPath is null
-  indexPath = path.join currentProjectPath, 'index.html'
-  return if fs.existsSync indexPath then indexPath else null
+  mainHtmlPath = ConfigResolver.instance.mainHtmlPath(currentProjectPath)
+  mainHtmlAbsPath = path.join currentProjectPath, mainHtmlPath
+  if fs.existsSync mainHtmlAbsPath
+    return mainHtmlAbsPath
+  else
+    if opts.warningMsg
+      atom.notifications.addWarning(
+        opts.warningMsg,
+          detail: "The main HTML file doesn\'t exist: #{mainHtmlAbsPath}"
+          dismissable: true
+      )
+    return null
 
 exports.readIconInBase64 = (fileName) ->
   packagePath = atom.packages.resolvePackagePath 'impress'

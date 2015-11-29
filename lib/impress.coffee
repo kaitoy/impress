@@ -42,8 +42,9 @@ module.exports = Impress =
     @stepListViewManager.toggleStepListView()
 
   preview: ->
-    indexHtmlPath = util.findIndexHtmlPath()
-    return unless indexHtmlPath?
+    mainHtmlPath = util.findMainHtmlPath
+      warningMsg: 'Failed to open the preview window.'
+    return unless mainHtmlPath?
     @previewWindow = new BrowserWindow
       width: 800,
       height: 600,
@@ -54,5 +55,5 @@ module.exports = Impress =
       @previewWindow.destroy()
       @previewWindow = null
     @previewWindow.setMenuBarVisibility false
-    @previewWindow.loadUrl indexHtmlPath
+    @previewWindow.loadUrl mainHtmlPath
     @previewWindow.show()
