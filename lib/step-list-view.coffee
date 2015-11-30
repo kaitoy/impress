@@ -15,13 +15,18 @@ class StepListView extends View
   viewHeight: undefined
   panel: null
   subscriptions: null
+  initialized: false
 
   @content: ->
     @div class: 'step-list-view', tabindex: -1, =>
       @iframe outlet: 'iframe'
 
   initialize: (projPath) ->
-    @mainHtmlPath = path.join projPath, ConfigResolver.instance.mainHtmlPath(projPath)
+    @mainHtmlPath = util.findMainHtmlPath
+      warningMsg: 'Failed to open the step list view.'
+      projPath: projPath
+    return unless @mainHtmlPath?
+
     @viewHeight = ConfigResolver.instance.stepListViewHeight(projPath)
     if @viewHeight < StepListView.minHeight
       @viewHeight = StepListView.minHeight
@@ -80,10 +85,11 @@ class StepListView extends View
         @iframe.contents().find('#impress').get(0),
         => @_adjustSize()
       )
+    @initialized = true
 
   destroy: ->
-    @panel.destroy()
-    @subscriptions.dispose()
+    @panel?.destroy()
+    @subscriptions?.dispose()
 
   toggle: ->
     if @panel.isVisible()

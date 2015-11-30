@@ -39,6 +39,9 @@ class StepListViewManager
       @_deleteView currentProjectPath
     else
       view = new StepListView currentProjectPath
+      if not view.initialized
+        view.destroy()
+        return
       @views[currentProjectPath] = view
       view.show()
 

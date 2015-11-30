@@ -28,7 +28,7 @@ exports.getCurrentProjectPath = getCurrentProjectPath = ->
   return null
 
 exports.findMainHtmlPath = (opts = {}) ->
-  currentProjectPath = getCurrentProjectPath()
+  currentProjectPath = opts.projPath ? getCurrentProjectPath()
   return null if currentProjectPath is null
   mainHtmlPath = ConfigResolver.instance.mainHtmlPath(currentProjectPath)
   mainHtmlAbsPath = path.join currentProjectPath, mainHtmlPath
