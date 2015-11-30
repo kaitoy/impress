@@ -1,0 +1,19 @@
+##
+## Config file for Atom impress package (https://atom.io/packages/impress)
+## Parameters in this file are effective in the project that contains this file
+## and take precedence over package settings.
+## This file is read only when the project is added to Atom.
+##
+
+## Path to the main HTML file. (Relative path from the project root.)
+# mainHtmlPath = 'index.html'
+
+## Resource files the main HTML file referes to
+## and/or directories containing those. (Relative path from the project root.)
+## Changes in the files/directories are monitored and reflected to
+## the step list view.
+# resources = ['css', 'fonts', 'js']
+
+[stepListView]
+## Height of Step List View.
+# stepListViewHeight = 120
