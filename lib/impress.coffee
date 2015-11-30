@@ -6,6 +6,7 @@ ConfigResolver = require './config-resolver'
 config = require './config'
 remote = require 'remote'
 BrowserWindow = remote.require 'browser-window'
+path = require 'path'
 
 module.exports = Impress =
   subscriptions: null
@@ -42,16 +43,29 @@ module.exports = Impress =
     @stepListViewManager.toggleStepListView()
 
   preview: ->
+    projPath = util.getCurrentProjectPath()
     mainHtmlPath = util.findMainHtmlPath
       warningMsg: 'Failed to open the preview window.'
+      projPath: projPath
     return unless mainHtmlPath?
+
     @previewWindow = new BrowserWindow
       width: 800,
       height: 600,
       resizable: true,
       center: true,
       show: false
+
+    resources = ConfigResolver.instance.resources projPath
+    if Array.isArray resources
+      resources = resources.map (elem) ->
+        return path.join projPath, elem
+    resources.push mainHtmlPath
+    disposable = util.observeFileChange resources, =>
+      @previewWindow.reload()
+
     @previewWindow.on 'closed', =>
+      disposable.dispose()
       @previewWindow.destroy()
       @previewWindow = null
     @previewWindow.setMenuBarVisibility false
