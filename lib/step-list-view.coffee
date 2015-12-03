@@ -8,6 +8,12 @@ util = require './util'
 StepList = require './step-list'
 ConfigResolver = require './config-resolver'
 
+# copied from jQuery Easing v1.3.2
+$.extend($.easing,
+  easeOutCirc: (x, t, b, c, d) ->
+    return c * Math.sqrt(1 - (t=t/d-1)*t) + b
+)
+
 module.exports =
 class StepListView extends View
   @minHeight: 50
@@ -63,6 +69,13 @@ class StepListView extends View
         e.preventDefault()
       $(@iframe.get(0).contentWindow).resize (e) =>
         @_adjustSize()
+      @iframe.on 'wheel', (e) =>
+        e.preventDefault()
+        body = $(@iframe.contents()).find 'body'
+        delta = if e.originalEvent.deltaY > 0 then 200 else -200
+        scrollLeft = body.scrollLeft() + delta
+        body.stop().animate {scrollLeft: scrollLeft}, 300, 'easeOutCirc'
+        return false
 
       steps = []
       @iframe.contents().find('div.step').each (idx, dom) ->
