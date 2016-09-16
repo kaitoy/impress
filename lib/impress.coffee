@@ -4,8 +4,8 @@ NewPresentationGeneratorView = require './new-presentation-generator-view'
 StepListViewManager = require './step-list-view-manager'
 ConfigResolver = require './config-resolver'
 config = require './config'
-remote = require 'remote'
-BrowserWindow = remote.require 'browser-window'
+electron = require 'electron'
+BrowserWindow = electron.remote.BrowserWindow
 path = require 'path'
 
 module.exports = Impress =
@@ -69,5 +69,5 @@ module.exports = Impress =
       @previewWindow.destroy()
       @previewWindow = null
     @previewWindow.setMenuBarVisibility false
-    @previewWindow.loadUrl mainHtmlPath
+    @previewWindow.webContents.loadURL mainHtmlPath
     @previewWindow.show()
